@@ -3,7 +3,7 @@ from ultralytics import YOLO
 
 video_path = "data/people_walking.mp4" #video path
 
-model = YOLO("yolov8n.pt") #"n" so it is nano model, faster
+model = YOLO("yolov8n.pt") #"n" so it is nano model, faster. It is trained by COCO dataset that includes 80 different labels
 
 cap = cv2.VideoCapture(video_path)
 
@@ -21,6 +21,16 @@ while True:
     # results (even though in our program it will return only one)
     # we need to return first element of the list
     results = model(frame)[0] 
+
+    for box in results.boxes:
+        cls_id = int(box.cls[0]) #take the id of the object
+        conf=float(box.conf[0])
+        x1, y1, x2, y2 = map(int, box.xyxy[0])
+        label = f"{model.names[cls_id]}, {conf:.2f}"
+        cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 117, 44), 2)
+        cv2.putText(frame, label, ((x1+20), (y1-10)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 117, 44), 2)
+
+
 
     cv2.imshow("video", frame)
 
