@@ -24,11 +24,12 @@ while True:
 
     for box in results.boxes:
         cls_id = int(box.cls[0]) #take the id of the object
-        conf=float(box.conf[0])
-        x1, y1, x2, y2 = map(int, box.xyxy[0])
-        label = f"{model.names[cls_id]}, {conf:.2f}"
-        cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 117, 44), 2)
-        cv2.putText(frame, label, ((x1+20), (y1-10)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 117, 44), 2)
+        if model.names[cls_id] == "person":
+            conf=float(box.conf[0])
+            x1, y1, x2, y2 = map(int, box.xyxy[0])
+            label = f"{model.names[cls_id]}, {conf:.2f}"
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 117, 44), 0)
+            cv2.putText(frame, label, (x1, (y1-10)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 117, 44), 2)
 
 
 
