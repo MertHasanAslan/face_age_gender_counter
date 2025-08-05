@@ -2,7 +2,8 @@ import cv2
 from ultralytics import YOLO
 from norfair import Detection, Tracker
 import numpy as np
-
+import tensorflow as tf
+import uuid 
 
 video_path = "data/people_walking.mp4" #video path
 
@@ -10,6 +11,8 @@ video_path = "data/people_walking.mp4" #video path
  #It is trained by COCO dataset that includes 80 different labels 
  #I used nano model but you can use small, medium,...
 model = YOLO("yolov8n.pt")
+
+
 
 # euclidean means that closest path from one object to another
 # distance threshold means that if a object is closer than x tracker will approach it they are like the same objects
